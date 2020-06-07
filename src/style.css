@@ -1,0 +1,53 @@
+#tennis-container {
+	position: relative;
+	/* transform: rotate(90deg); */
+	transform-origin: 150px 150px;
+}
+.area {
+	position: relative;
+	background-color: #fbec5d;
+	/* height: 250px;
+	width: 400px; */
+}
+/* .area::after {
+	content: "";
+	position: absolute;
+	left: 200px;
+	background-color: black;
+	height: 234px;
+	width: 0.1px;
+}
+.area::before {
+	content: "";
+	position: absolute;
+	top: 125px;
+	background-color: black;
+	height: 0.1px;
+	width: 400px;
+} */
+.racket-one, .racket-two {
+	transform: translateZ(0);
+	border-radius: 14px;
+}
+.racket-one {
+	position: absolute;
+	background-color: red;
+	/* height: 45px;
+	width: 8px; */
+}
+.racket-two {
+	position: absolute;
+	background-color: blue;
+	/* height: 45px;
+	width: 8px; */
+}
+.ball {
+	position: relative;
+	/* transition: transform 0.1s linear; */
+	background-color: #2e9249;
+	border-radius: 50%;
+	transform: translateZ(0)
+	;
+	/* height: 7px;
+	width: 7px; */
+}
