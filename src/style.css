@@ -1,11 +1,11 @@
 #tennis-container {
 	position: relative;
-	/* transform: rotate(90deg); */
-	transform-origin: 150px 150px;
+	transform-origin: 200px 175px;
 }
 .area {
 	position: relative;
 	background-color: #fbec5d;
+	transform: rotate(90deg);
 	/* height: 250px;
 	width: 400px; */
 }

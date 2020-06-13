@@ -26,6 +26,7 @@ export function TennisView() {
 	};
 	
 	this.update = () => {
+		myField.style.top = RACKET_HEIGHT*2 + 'px'
 		AREA.style.width = AREA_WIDTH + 'px'
 		AREA.style.height = AREA_HEIGHT + 'px'
 
