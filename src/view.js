@@ -49,6 +49,19 @@ export function TennisView() {
 		SCORE.style.position = "absolute"
 		SCORE.style.left = AREA_WIDTH/2 - SCORE.offsetWidth/2 + "px"
 		SCORE.style.bottom = AREA_HEIGHT + "px"
+
+		for (let rows = 0; rows < myModel.blocksH.cols; rows++){
+			for (let cols = 0; cols < myModel.blocksH.rows; cols++){
+				let newElem = document.createElement("div");
+				newElem.style.width = myModel.blocksH.width + "px"
+				newElem.style.height = myModel.blocksH.height + "px"
+				newElem.style.position = "absolute"
+				newElem.style.left = myModel.blocksH.levels[rows][cols].x + "px"
+				newElem.style.top = myModel.blocksH.levels[rows][cols].y + "px"
+				newElem.style.backgroundColor = "red"
+				AREA.appendChild(newElem)
+			}
+		}
 	};
 };
 

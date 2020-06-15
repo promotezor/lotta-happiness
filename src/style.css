@@ -1,3 +1,9 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: rgb(238, 224, 31);
+}
+
 #tennis-container {
 	position: relative;
 	transform-origin: 200px 175px;
@@ -6,8 +12,6 @@
 	position: relative;
 	background-color: #fbec5d;
 	transform: rotate(90deg);
-	/* height: 250px;
-	width: 400px; */
 }
 /* .area::after {
 	content: "";
@@ -28,12 +32,6 @@
 .racket-one, .racket-two {
 	transform: translateZ(0);
 	border-radius: 14px;
-}
-.racket-one {
-	position: absolute;
-	background-color: red;
-	/* height: 45px;
-	width: 8px; */
 }
 .racket-two {
 	position: absolute;

@@ -11,39 +11,20 @@ export const BALL_SPEEDY	= 1.9;
 export const PLAYER_ONE = 1;
 export const PLAYER_TWO = 2;
 export const RACKET_SPEED = 5;
+export const BRICK_WIDTH = 4;
+export const BRICK_HEIGHT = 2;
 
 
 
 export function TennisModel() {
+	let self = this;
+
 	this.ballH = {
 		radius: BALL_RADIUS,
 		posX: 0,
 		posY: 0,
 		speedX: 0,
 		speedY: 0,
-	};
-
-	this.randSide = () => {
-		let rndX = Math.random()
-		let rndY = Math.random()
-
-		//рандомизируем eвертикаль скорости мяча
-		rndY > 0.5 ? this.ballH.speedY = 
-		this.ballH.speedY = Math.abs(this.ballH.speedY) 
-		: this.ballH.speedY =-this.ballH.speedY
-
-		//рандомизируем горизонталь скорости мяча
-		rndX < 0.5 ? this.ballH.speedX = 
-		this.ballH.speedX = Math.abs(this.ballH.speedX) 
-		: this.ballH.speedX =-this.ballH.speedX
-
-		//рандомизируем угол старта мяча
-		rndY > 0.5 ? this.ballH.speedX += rndY : this.ballH.speedX -= rndY
-		rndX > 0.5 ? this.ballH.speedY -= rndX : this.ballH.speedY += rndX
-		
-		console.log("randomSide!", this.ballH.speedX,this.ballH.speedY)
-    this.updateView()
-		return rndX
 	};
 
 	this.racketOne = {
@@ -71,16 +52,71 @@ export function TennisModel() {
 		posY: AREA_HEIGHT/2,
 	};
 
+	this.blocksH = {
+		width: BRICK_WIDTH,
+		height: BRICK_HEIGHT,
+		rows: 4,
+		cols: 8,
+		life: 0,
+		levels: [],
+		padding: 40,
+	};
+
+	this.createBlocks = (cacheData) => {
+		console.log(self.blocksH.levels)
+		for (let rows = 0; rows < this.blocksH.cols; rows++) {
+			self.blocksH.levels[rows] = []
+			for (let cols = 0; cols < this.blocksH.rows; cols++) {
+				self.blocksH.levels[rows][cols] = {
+					x: BRICK_HEIGHT + self.blocksH.padding * rows, 
+					y: BRICK_WIDTH + self.blocksH.padding * cols,
+				};
+			}
+		}
+		console.log(self.blocksH.levels)
+		self.updateView()
+	}
+
+	self.prepareGame = () => {
+		this.init()
+		console.log('prepareGame. levels = ', self.blocksH.levels)
+    this.updateView()
+		// self.rAF()
+	}
 	this.init = () => {
-		this.ballH.posX = AREA_WIDTH/2
+		this.ballH.posX = AREA_WIDTH - RACKET_WIDTH - BALL_RADIUS
 		this.ballH.posY = AREA_HEIGHT/2
-		this.racketOne.posX = RACKET_WIDTH/2
-		this.racketOne.posY = AREA_HEIGHT/2 
+		// this.racketOne.posX = RACKET_WIDTH/2
+		// this.racketOne.posY = AREA_HEIGHT/2 
 		this.racketTwo.posX = AREA_WIDTH - RACKET_WIDTH/2
 		this.racketTwo.posY = AREA_HEIGHT/2
+		self.createBlocks()
     this.updateView()
 	};
 
+	this.randSide = () => {
+		let rndX = Math.random()
+		let rndY = Math.random()
+
+		//рандомизируем eвертикаль скорости мяча
+		rndY > 0.5 ? this.ballH.speedY = 
+		this.ballH.speedY = Math.abs(this.ballH.speedY) 
+		: this.ballH.speedY =-this.ballH.speedY
+
+		//рандомизируем горизонталь скорости мяча
+		rndX < 0.5 ? this.ballH.speedX = 
+		this.ballH.speedX = Math.abs(this.ballH.speedX) 
+		: this.ballH.speedX =-this.ballH.speedX
+
+		//рандомизируем угол старта мяча
+		rndY > 0.5 ? this.ballH.speedX += rndY : this.ballH.speedX -= rndY
+		rndX > 0.5 ? this.ballH.speedY -= rndX : this.ballH.speedY += rndX
+		
+		console.log("randomSide!", this.ballH.speedX,this.ballH.speedY)
+    this.updateView()
+		return rndX
+	};
+	
 	this.setRacketUpSpeed = (playerNumberN) => {
 
 		if (playerNumberN === PLAYER_ONE) {
@@ -182,12 +218,10 @@ export function TennisModel() {
 	let myView = null;
 
 	this.startGame = () => {
-		this.init()
 		this.ballH.speedX = BALL_SPEEDX
 		this.ballH.speedY = BALL_SPEEDY
 		this.randSide()
     this.updateView()
-		this.moveElements()
 	};
 
 	this.stopGame = () => {

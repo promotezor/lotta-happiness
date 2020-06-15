@@ -23,7 +23,7 @@ export function TennisController() {
 	}
 
 	this.captureControls = (EO) => {
-		EO.preventDefault();
+		// EO.preventDefault();
 		if (EO.keyCode == 16) {
 			myModel.setRacketUpSpeed(PLAYER_ONE)
 		}

@@ -5,7 +5,7 @@ import './style.css';
 const CONTAINER = document.getElementById('tennis-container')
 
 
-// настройка, инициализаци
+// настройка, инициализация
 // создаём все три компонента
 let model = new TennisModel()
 let view = new TennisView()
@@ -16,8 +16,10 @@ let controller = new TennisController()
 model.setView(view)
 view.initView(model, CONTAINER)
 controller.startController(model, CONTAINER)
-// инициируем первичное отображение Model во View
-model.init()
-view.update()
 
-window.onload = model.rAF
+// инициируем первичное отображение Model во View
+console.log("do update1")
+model.prepareGame()
+console.log("do update2")
+window.onload = model.rAF()
+view.update()
