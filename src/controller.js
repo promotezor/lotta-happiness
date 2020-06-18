@@ -4,7 +4,7 @@ import './style.css';
 import {PLAYER_ONE} from './model';
 import {PLAYER_TWO} from './model';
 
-export function TennisController() {
+export function ArcanoidController() {
 	let myModel = null
 	let myField = null
 	let START_BTN

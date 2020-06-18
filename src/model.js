@@ -4,36 +4,30 @@
 export const RACKET_WIDTH = 8;
 export const RACKET_HEIGHT = 44;
 export const AREA_WIDTH = 400;
-export const AREA_HEIGHT = 250;
-export const BALL_RADIUS = 8;
+export const AREA_HEIGHT = 350;
+export const BALL_RADIUS = 28;
 export const BALL_SPEEDX = 3.4;
 export const BALL_SPEEDY	= 1.9;
 export const PLAYER_ONE = 1;
 export const PLAYER_TWO = 2;
 export const RACKET_SPEED = 5;
-export const BRICK_WIDTH = 4;
-export const BRICK_HEIGHT = 2;
+export const BRICK_WIDTH = 15;
+export const BRICK_HEIGHT = 25;
 
 
 
-export function TennisModel() {
+export function ArcanoidModel() {
 	let self = this;
 
 	this.ballH = {
 		radius: BALL_RADIUS,
+		frame: 0,
 		posX: 0,
 		posY: 0,
 		speedX: 0,
 		speedY: 0,
-	};
-
-	this.racketOne = {
-		width: RACKET_WIDTH,
-		height: RACKET_HEIGHT,
-		posX: 0,
-		posY: 0,
-		speed: 0,
-		score: 0,
+		velocityX: 0,
+		velocityY: 0,
 	};
 
 	this.racketTwo = {
@@ -59,29 +53,29 @@ export function TennisModel() {
 		cols: 8,
 		life: 0,
 		levels: [],
-		padding: 40,
+		padding: 15,
 	};
 
 	this.createBlocks = (cacheData) => {
-		console.log(self.blocksH.levels)
 		for (let rows = 0; rows < this.blocksH.cols; rows++) {
 			self.blocksH.levels[rows] = []
 			for (let cols = 0; cols < this.blocksH.rows; cols++) {
 				self.blocksH.levels[rows][cols] = {
-					x: BRICK_HEIGHT + self.blocksH.padding * rows, 
-					y: BRICK_WIDTH + self.blocksH.padding * cols,
+					x: BRICK_WIDTH + self.blocksH.padding * cols, 
+					y: BRICK_HEIGHT + self.blocksH.padding * rows,
+					lifes: 1,
+					status: 0,
+					statusCur: 2,
+					color: 'tomato',
 				};
 			}
 		}
-		console.log(self.blocksH.levels)
 		self.updateView()
 	}
 
 	self.prepareGame = () => {
 		this.init()
-		console.log('prepareGame. levels = ', self.blocksH.levels)
     this.updateView()
-		// self.rAF()
 	}
 	this.init = () => {
 		this.ballH.posX = AREA_WIDTH - RACKET_WIDTH - BALL_RADIUS
@@ -91,6 +85,7 @@ export function TennisModel() {
 		this.racketTwo.posX = AREA_WIDTH - RACKET_WIDTH/2
 		this.racketTwo.posY = AREA_HEIGHT/2
 		self.createBlocks()
+		console.log('BLOCK CREATED')
     this.updateView()
 	};
 
@@ -98,7 +93,7 @@ export function TennisModel() {
 		let rndX = Math.random()
 		let rndY = Math.random()
 
-		//рандомизируем eвертикаль скорости мяча
+		//рандомизируем вертикаль скорости мяча
 		rndY > 0.5 ? this.ballH.speedY = 
 		this.ballH.speedY = Math.abs(this.ballH.speedY) 
 		: this.ballH.speedY =-this.ballH.speedY
@@ -119,10 +114,10 @@ export function TennisModel() {
 	
 	this.setRacketUpSpeed = (playerNumberN) => {
 
-		if (playerNumberN === PLAYER_ONE) {
-			this.racketOne.speed = -RACKET_SPEED
-		} 
-		if (playerNumberN === PLAYER_TWO && this.racketOne.posY <= AREA_WIDTH - RACKET_HEIGHT/2) {
+		// if (playerNumberN === PLAYER_ONE) {
+		// 	this.racketOne.speed = -RACKET_SPEED
+		// } 
+		if (playerNumberN === PLAYER_TWO && this.racketTwo.posY <= AREA_WIDTH - RACKET_HEIGHT/2) {
 			this.racketTwo.speed = -RACKET_SPEED
 		} 
     this.updateView()
@@ -130,9 +125,9 @@ export function TennisModel() {
 	};
 	
 	this.setRacketDownSpeed = (playerNumberN) => {
-		if (playerNumberN === PLAYER_ONE) {
-			this.racketOne.speed = RACKET_SPEED
-		} 
+		// if (playerNumberN === PLAYER_ONE) {
+		// 	this.racketOne.speed = RACKET_SPEED
+		// } 
 		if (playerNumberN === PLAYER_TWO) {
 			this.racketTwo.speed = RACKET_SPEED
 		} 
@@ -140,9 +135,9 @@ export function TennisModel() {
 	};
 
 	this.resetRacketSpeed = (playerNumberN) => {
-		if (playerNumberN === PLAYER_ONE) {
-			this.racketOne.speed = 0
-		} 
+		// if (playerNumberN === PLAYER_ONE) {
+		// 	this.racketOne.speed = 0
+		// } 
 		if (playerNumberN === PLAYER_TWO) {
 			this.racketTwo.speed = 0
 		} 
@@ -171,20 +166,14 @@ export function TennisModel() {
       this.ballH.speedX = 0
       this.ballH.speedY = 0
     // вылетел ли мяч правее стены?
-				this.updateScore(1, 0)
+				// this.lifeDecrease(1, 0)
 		};
-    // вылетел ли мяч левее ракетки?
-    if ((this.ballH.posX <= RACKET_WIDTH + BALL_RADIUS) 
-		&& (this.ballH.posY >= this.racketOne.posY - RACKET_HEIGHT/2) 
-		&& (this.ballH.posY <= this.racketOne.posY + RACKET_HEIGHT/2)) {
+    // вылетел ли мяч левее стены?
+    if (this.ballH.speedX && this.ballH.speedX && this.ballH.posX <= BALL_RADIUS) {
       this.ballH.speedX = -this.ballH.speedX 
       this.ballH.posX = RACKET_WIDTH + BALL_RADIUS
-    } else if (this.ballH.speedX && this.ballH.speedX &&this.ballH.posX <= BALL_RADIUS) {	this.ballH.posX = BALL_RADIUS
-      this.ballH.speedX = 0
-      this.ballH.speedY = 0
-    // вылетел ли мяч левее стены?
-			this.updateScore(0, 1)
-		};
+		} 
+			// this.updateScore(0, 1)
 
     // вылетел ли мяч ниже пола?
     if ( this.ballH.posY + BALL_RADIUS > AREA_HEIGHT ) {
@@ -197,13 +186,7 @@ export function TennisModel() {
       this.ballH.posY = BALL_RADIUS
     };
 
-		// Двигаем ракетки и не даем выйти за поле
-		if ((this.racketOne.posY > AREA_HEIGHT - RACKET_HEIGHT/2) || (this.racketOne.posY < RACKET_HEIGHT/2)) {
-			this.racketOne.posY < AREA_HEIGHT/2 ? this.racketOne.posY = RACKET_HEIGHT/2 : this.racketOne.posY = AREA_HEIGHT - RACKET_HEIGHT/2
-			this.racketOne.speed = 0
-		} else {
-			this.racketOne.posY += this.racketOne.speed
-		}
+		// Двигаем ракетку и не даем выйти за поле
 		if ((this.racketTwo.posY > AREA_HEIGHT - RACKET_HEIGHT/2) || (this.racketTwo.posY < RACKET_HEIGHT/2)) {
 			this.racketTwo.posY < AREA_HEIGHT/2 ? this.racketTwo.posY = RACKET_HEIGHT/2 : this.racketTwo.posY = AREA_HEIGHT - RACKET_HEIGHT/2
 			this.racketTwo.speed = 0
@@ -211,9 +194,35 @@ export function TennisModel() {
 			this.racketTwo.posY += this.racketTwo.speed
 		}
 
-    this.updateView()
+		self.blocksH.levels.forEach( (elem) => {
+			// console.log("ЛОГ В ФУНКЦИИ FOREACH (elem.x, elem, self)",elem.x, elem, self)
+				self.ballCollide(elem);
+				// }
+		}, self);
+
+    self.updateView()
 	};
 
+	self.ballCollide = (elem) => {
+		let x = self.ballH.posX + self.ballH.speedX
+		let y = self.ballH.posY + self.ballH.speedY
+		// console.log(x, elem)
+		// console.log("ЛОГ В ФУНКЦИИ КОЛЛАЙД (elem.x, elem, self)", elem.x, elem, self)
+		// if (x + BALL_RADIUS > elem.x &&
+		// 		x < elem.x + BRICK_WIDTH &&
+		// 		y + BALL_RADIUS > elem.y &&
+		// 		y < elem.y + BRICK_HEIGHT) {
+		// 			console.log("После этого у блоков отнимутся жизни")
+		// 			self.ballH.speedX = -self.ballH.speedX
+		// 			 elem.lifes--
+		// 		}
+		if (x < elem.x) {
+					console.log("После этого у блоков отнимутся жизни")
+					self.ballH.speedX = -self.ballH.speedX
+					 elem.lifes--
+		}
+	}
+	
 	let timerID
 	let myView = null;
 

@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	background-color: rgb(238, 224, 31);
+	background-color: rgb(31, 103, 238);
 }
 
 #tennis-container {
@@ -10,25 +10,12 @@ body {
 }
 .area {
 	position: relative;
-	background-color: #fbec5d;
+	background-color: #a6ff5d;
 	transform: rotate(90deg);
 }
-/* .area::after {
-	content: "";
+#canvas-field, #canvas-ball {
 	position: absolute;
-	left: 200px;
-	background-color: black;
-	height: 234px;
-	width: 0.1px;
 }
-.area::before {
-	content: "";
-	position: absolute;
-	top: 125px;
-	background-color: black;
-	height: 0.1px;
-	width: 400px;
-} */
 .racket-one, .racket-two {
 	transform: translateZ(0);
 	border-radius: 14px;
