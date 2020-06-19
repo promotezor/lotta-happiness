@@ -56,6 +56,8 @@ export function ArcanoidView() {
 		var ctx = canvas.getContext('2d');
 		for (let c = 0; c < myModel.blocksH.cols; c++) {
 			for (let r = 0; r < myModel.blocksH.rows; r++) {
+				// console.log(myModel.blocksH.levels[c][r].lifes)
+					if (myModel.blocksH.levels[c][r].lifes) {
 						var blockPosX = (r * (w + p) + p);
 						var blockPosY = (c * (h + p) + p);
 						blocksArr[c][r].x = blockPosX;
@@ -69,7 +71,22 @@ export function ArcanoidView() {
 						ctx.font = 'normal 15px Arial';
 						ctx.textBaseline = 'middle';
 						ctx.textAlign = 'center';
-						ctx.fillText(blocksArr[c][r].statusCur, blockPosX + w / 2, blockPosY + h / 2);
+						ctx.fillText(blocksArr[c][r].lifes, blockPosX + w / 2, blockPosY + h / 2);
+					} else {
+						var blockPosX = (r * (w + p) + p);
+						var blockPosY = (c * (h + p) + p);
+						blocksArr[c][r].x = blockPosX;
+						blocksArr[c][r].y = blockPosY;
+						ctx.beginPath();
+						ctx.rect(blockPosX, blockPosY, w, h);
+						ctx.fillStyle = "rgb(146, 146, 216)";
+						ctx.fill();
+						ctx.closePath();
+						ctx.fillStyle = '#333';
+						ctx.font = 'normal 15px Arial';
+						ctx.textBaseline = 'middle';
+						ctx.textAlign = 'center';
+						ctx.fillText(blocksArr[c][r].lifes, blockPosX + w / 2, blockPosY + h / 2);}
 			}
 		}	
 	}
