@@ -3,35 +3,46 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>lotta happiness</title>
+    <title>lotta happiness project</title>
   </head>
   <body>
-    <div id="main">
-      <a href="#main" id="main-button">main</a>
-      <a href="#play" id="play-button">play</a>
-      <a href="#about" id="about-button">about</a>
-      <div id="content">
-        <span>Добро пожаловать в Lotta Happiness</span>
-      </div>
-    </div>
-    <div id="play">
-      <a href="#main" id="main-button">main</a>
-      <a href="#play" id="play-button">play</a>
-      <a href="#about" id="about-button">about</a>
-      <div id="tennis-container">
-        <input class="start-button" type="button" value="Старт!" />
-        <div class="score"></div>
-        <canvas id="canvas-field" width="400" height="350"> </canvas>
-        <canvas id="canvas-ball" width="400" height="350"> </canvas>
-        <canvas id="canvas-cache" width="400" height="350"> </canvas>
-      </div>
-      <div id="about">
+    <footer class="footer">
+      <h1 class="main-header">Lotta Happiness</h1>
+      <div class="paginator">
         <a href="#main" id="main-button">main</a>
         <a href="#play" id="play-button">play</a>
         <a href="#about" id="about-button">about</a>
+      </div>
+    </footer>
+    <section class="section-content">
+      <div id="main">
         <div id="content">
           <span>Добро пожаловать в Lotta Happiness</span>
         </div>
+      </div>
+      <div id="play">
+        <div id="tennis-container">
+          <input class="start-button" type="button" value="Старт!" />
+          <input class="pause-button" type="button" value="Пауза" />
+          <div class="score"></div>
+          <div class="lifes"></div>
+          <div class="timer"></div>
+          <div class="level"></div>
+          <canvas id="canvas-field" width="400" height="360"> </canvas>
+          <canvas id="canvas-ball" width="400" height="360"> </canvas>
+        </div>
+      </div>
+      <div id="about">
+        <div id="content">
+          <span class="main-header">Стилизовано любителем VaporWave</span>
+        </div>
+      </div>
+    </section>
+    <footer></footer>
+    <div class="popUpWindow" style="height: 830px;">
+      <div id="gameover-modal-window" class="messageBox">
+        <p class="messageText">game over</p>
+        <a class="optionText">ИГРАТЬ СНОВА</a>
       </div>
     </div>
   </body>

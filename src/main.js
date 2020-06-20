@@ -37,13 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // указываем компонентам, в каком DOM им работать
   model.setView(view)
   view.initView(model, CONTAINER)
-  controller.startController(model, CONTAINER)
+  controller.startController(model, CONTAINER, view)
   
   // инициируем первичное отображение Model во View
   model.prepareGame()
   window.onload = model.rAF()
-  // switchToStateFromURLHash();
-  // window.onhashchange = switchToStateFromURLHash;
 
   view.update()
 
