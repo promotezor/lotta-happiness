@@ -59,8 +59,8 @@ export function ArcanoidModel() {
   this.blocksH = {
     width: BRICK_WIDTH,
     height: BRICK_HEIGHT,
-    rows: 6,
-    cols: 13,
+    rows: 5,
+    cols: 11,
     life: 0,
     levels: [],
     padding: BRICK_WIDTH*1.58,
@@ -95,7 +95,7 @@ export function ArcanoidModel() {
     this.ballH.posY = AREA_HEIGHT / 2;
     this.racketTwo.posX = AREA_WIDTH - RACKET_WIDTH / 2;
     this.racketTwo.posY = AREA_HEIGHT / 2;
-    this.racketTwo.lifes = 1;
+    this.racketTwo.lifes = 3;
     this.racketTwo.score = 0;
     self.createBlocks();
     this.updateView();
@@ -228,9 +228,16 @@ export function ArcanoidModel() {
 					self.ballH.speedX *= -1
           elem.lifes--
           self.racketTwo.score++
+          self.checkMeWin();
         } 
   };
 
+  self.checkMeWin = () => {
+    if (self.racketTwo.score === self.blocksH.rows * self.blocksH.cols) {
+      self.stopGame();
+      console.log('you won')
+    }
+  }
 
   self.ballFrameIterator = () => {
     if (self.ballH.intervalLink === 0) {
