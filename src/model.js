@@ -1,17 +1,17 @@
 //Контроль SHIFT CTRL / ARROWUP ARROWDOWN
 
-export const RACKET_WIDTH = 8;
-export const RACKET_HEIGHT = 44;
+export const RACKET_WIDTH = 12;
+export const RACKET_HEIGHT = 76;
 export const AREA_WIDTH = 400;
-export const AREA_HEIGHT = 360;
+export const AREA_HEIGHT = 560;
 export const BALL_RADIUS = 14;
 export const BALL_SPEEDX = 2.8;
 export const BALL_SPEEDY = 1.9;
 export const PLAYER_ONE = 1;
 export const PLAYER_TWO = 2;
-export const RACKET_SPEED = 5;
-export const BRICK_WIDTH = 15;
-export const BRICK_HEIGHT = 25;
+export const RACKET_SPEED = 6;
+export const BRICK_WIDTH = 16;
+export const BRICK_HEIGHT = 26;
 
 export function ArcanoidModel() {
 
@@ -59,11 +59,11 @@ export function ArcanoidModel() {
   this.blocksH = {
     width: BRICK_WIDTH,
     height: BRICK_HEIGHT,
-    rows: 4,
-    cols: 8,
+    rows: 6,
+    cols: 13,
     life: 0,
     levels: [],
-    padding: BRICK_WIDTH*1.27,
+    padding: BRICK_WIDTH*1.58,
   };
 
   this.createBlocks = () => {
@@ -105,17 +105,14 @@ export function ArcanoidModel() {
     let rndX = Math.random();
     let rndY = Math.random();
 
-    //рандомизируем вертикаль скорости мяча
     rndY > 0.5
-      ? (this.ballH.speedY = this.ballH.speedY = Math.abs(-this.ballH.speedY))
+      ? (this.ballH.speedY = Math.abs(-this.ballH.speedY))
       : (this.ballH.speedY = -this.ballH.speedY);
 
-    //рандомизируем горизонталь скорости мяча
     rndX < 0.5
-      ? (this.ballH.speedX = this.ballH.speedX = Math.abs(-this.ballH.speedX))
+      ? (this.ballH.speedX = Math.abs(-this.ballH.speedX))
       : (this.ballH.speedX = -this.ballH.speedX);
 
-    //рандомизируем угол старта мяча
     rndY > 0.5 ? (this.ballH.speedX += rndY) : (this.ballH.speedX -= rndY);
     rndX > 0.5 ? (this.ballH.speedY -= rndX) : (this.ballH.speedY += rndX);
 
@@ -125,35 +122,17 @@ export function ArcanoidModel() {
   };
 
   this.setRacketUpSpeed = (playerNumberN) => {
-    // if (playerNumberN === PLAYER_ONE) {
-    // 	this.racketOne.speed = -RACKET_SPEED
-    // }
-    if (
-      playerNumberN === PLAYER_TWO &&
-      this.racketTwo.posY <= AREA_WIDTH - RACKET_HEIGHT / 2
-    ) {
       this.racketTwo.speed = -RACKET_SPEED;
-    }
     this.updateView();
   };
 
   this.setRacketDownSpeed = (playerNumberN) => {
-    // if (playerNumberN === PLAYER_ONE) {
-    // 	this.racketOne.speed = RACKET_SPEED
-    // }
-    if (playerNumberN === PLAYER_TWO) {
       this.racketTwo.speed = RACKET_SPEED;
-    }
     this.updateView();
   };
 
   this.resetRacketSpeed = (playerNumberN) => {
-    // if (playerNumberN === PLAYER_ONE) {
-    // 	this.racketOne.speed = 0
-    // }
-    if (playerNumberN === PLAYER_TWO) {
       this.racketTwo.speed = 0;
-    }
     this.updateView();
   };
 
@@ -169,34 +148,35 @@ export function ArcanoidModel() {
     // проверки на касемость ракеток, стен, при выигрыше - обновление счета
 
     // вылетел ли мяч правее ракетки?
-    if (
+    if 
+    (
       this.ballH.posX >= AREA_WIDTH - BALL_RADIUS - RACKET_WIDTH &&
       this.ballH.posY <= this.racketTwo.posY + RACKET_HEIGHT / 2 &&
       this.ballH.posY >= this.racketTwo.posY - RACKET_HEIGHT / 2
     ) {
       this.ballH.speedX = -this.ballH.speedX;
       this.ballH.posX = AREA_WIDTH - RACKET_WIDTH - BALL_RADIUS;
-    } else if (
-      this.ballH.speedX &&
-      this.ballH.speedX &&
+      // вылетел ли мяч правее стены?
+    } else if 
+    (
       this.ballH.posX + BALL_RADIUS >= AREA_WIDTH
     ) {
       //Если ракетка не словила мячик, останавливаем фрейм анимацию и снимаем жизни
       self.lifeDecrease(1);
       self.stopGame();
       this.ballH.posX = AREA_WIDTH - BALL_RADIUS;
+      // this.ballH.speedX *= -1; // test
       this.ballH.speedX = 0;
       this.ballH.speedY = 0;
-      // вылетел ли мяч правее стены?
+      
     }
     // вылетел ли мяч левее стены?
-    if (
-      this.ballH.speedX &&
-      this.ballH.speedX &&
-      this.ballH.posX <= BALL_RADIUS
+    if 
+    (
+      this.ballH.posX - BALL_RADIUS <= 0
     ) {
       this.ballH.speedX = -this.ballH.speedX;
-      this.ballH.posX = RACKET_WIDTH + BALL_RADIUS;
+      this.ballH.posX = BALL_RADIUS;
     }
     // this.updateScore(0, 1)
 
@@ -236,17 +216,19 @@ export function ArcanoidModel() {
   };
 
   self.ballCollide = (elem) => {
-    let x = self.ballH.posX + self.ballH.speedX;
-    let y = self.ballH.posY + self.ballH.speedY;
-    if (x + BALL_RADIUS > elem.x &&
-    		x < elem.x + BRICK_WIDTH &&
-    		y + BALL_RADIUS > elem.y &&
-    		y < elem.y + BRICK_HEIGHT && elem.lifes) {
+    let x = self.ballH.posX // + self.ballH.speedX;
+    let y = self.ballH.posY // + self.ballH.speedY;
+
+    if (x + BALL_RADIUS > elem.x - BRICK_WIDTH/2 &&
+    		x - BALL_RADIUS < elem.x + BRICK_WIDTH/2 &&
+    		y + BALL_RADIUS > elem.y - BRICK_HEIGHT/2  &&
+    		y - BALL_RADIUS < elem.y + BRICK_HEIGHT/2 && elem.lifes) {
+          // debugger;
     			console.log("После этого у блоков отнимутся жизни")
-					self.ballH.speedX = -self.ballH.speedX
+					self.ballH.speedX *= -1
           elem.lifes--
           self.racketTwo.score++
-    		}
+        } 
   };
 
 
@@ -325,7 +307,7 @@ export function ArcanoidModel() {
     this.ballH.speedX = this.ballH.cacheSpeedX;
     this.ballH.speedY = this.ballH.cacheSpeedY;
     self.ballFrameIterator();
-    // this.randSide();
+    this.randSide();
     this.updateView();
   };
 

@@ -62,7 +62,7 @@ export function ArcanoidView() {
 			for (let r = 0; r < myModel.blocksH.rows; r++) {
 					if (blocksArr[c][r].lifes) {
 						ctx.beginPath();
-						ctx.rect(blocksArr[c][r].x - p/2, blocksArr[c][r].y - p/2 + h/4, w, h);
+						ctx.rect(blocksArr[c][r].x - w/2, blocksArr[c][r].y - h/2, w, h);
 						ctx.fillStyle = blocksArr[c][r].color;
 						ctx.fill();
 						ctx.closePath();
@@ -73,7 +73,6 @@ export function ArcanoidView() {
 						// ctx.fillText(blocksArr[c][r].lifes, blocksArr[c][r].x + p/2, blocksArr[c][r].y + h/4);
 					} else {
 						ctx.beginPath();
-						// ctx.clearRect(0, 0, AREA_WIDTH, AREA_HEIGHT);
 						ctx.rect(blocksArr[c][r].x - p/2, blocksArr[c][r].y - p/2, w, h);
 						ctx.fillStyle = "rgb(146, 146, 216)";
 						ctx.fill();
@@ -116,8 +115,8 @@ export function ArcanoidView() {
 	};
 
 	self.updateInfoPanel = () => {
-    SCORE.innerText = "Ваш счет: " + myModel.racketTwo.score;
-    LIFES.innerText = "Осталось жизней: " + myModel.racketTwo.lifes;
+    SCORE.innerText = "SCORE: " + myModel.racketTwo.score;
+    LIFES.innerText = "LIFES: " + myModel.racketTwo.lifes;
 	};
 
 	self.gameOver = () => {
@@ -127,7 +126,7 @@ export function ArcanoidView() {
 	};
 
 	self.removePopUp = () => {
-		// убираем POPUP
+		// убираем POPUP окно о ригрыше
 		GAMEOVER_MODAL.classList.remove("messageBoxAppear");
 		GAMEOVER_MODAL.style.display = "none";
 		POPUP_WINDOW.style.display = "none";

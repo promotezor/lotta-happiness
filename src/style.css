@@ -10,36 +10,43 @@ a {
 	text-decoration: none;
 	text-transform: uppercase;
 }
+.footer {
+	vertical-align: center;
+	margin: 0 auto;
+	width: 550px;
+}
 .main-header {
 	color: #333;
 	width: 220px;
+	padding: 0 0 25px 0;
 	vertical-align: center;
 	margin: 0 auto;
 	text-shadow: 5px 5px 0px rgb(187, 114, 230), 10px 10px 0px rgb(218, 98, 154);
 }
 .section-content {
 	position: relative;
-	width: 520px;
+	width: 100vw;
 	vertical-align: center;
 	margin: 0 auto;
 
 }
 .paginator {
-	width: 550px;
+	width: 600px;
 	vertical-align: center;
 	margin: 0 auto;
 }
 #tennis-container {
 	position: relative;
-	left: calc(8vw);
+	text-align: center;
+	/* left: 120px ; */
 	/* width: 960px; */
 	/* top: calc(30vh - 360px); */
 	transform-origin: 200px 175px;
 }
 #canvas-field, #canvas-ball {
 	position: absolute;
-	top: calc(20vh);
-	left: -40px;
+	/* top: calc(10vh); */
+	left: calc(50% - 200px);
 	transform: rotate(90deg);
 	border: 3px solid violet;
 }
@@ -84,6 +91,7 @@ a {
 	background-color: #fff;
 }
 #about-button {
+	vertical-align: middle;
 	border-radius: 8px;
 	display: inline-block;
 	text-align: center;
@@ -92,27 +100,62 @@ a {
 	height: 40px;
 	background-color: #fff;
 }
-.start-button {
-	cursor: pointer;
+.score, .lifes {
+	color: rgb(119, 54, 172);
+	font-size: 1.243rem;
+	font-weight: 450;
+	line-height: 40px;
+	vertical-align: middle;
+	border-radius: 8px;
 	display: inline-block;
 	text-align: center;
 	margin: 15px;
 	width: 100px;
 	height: 40px;
-	background-color: rgb(191, 231, 172);
-	z-index: 0;
+	background-color: rgb(104, 163, 231);
+	text-shadow: 1px 1px 0px rgb(187, 114, 230), 2px 2px 0px rgb(218, 98, 154);
+	box-shadow: 1px 1px 0px rgb(187, 114, 230), 2.5px 2.5px 0px rgb(218, 98, 154);
 }
-.pause-button {
+.start-button {
+	text-transform: uppercase;
+	font-size: 1.243rem;
+	font-weight: 450;
+	line-height: 40px;
+	color: rgb(119, 54, 172);
+	border: 1.5px solid rgb(187, 114, 230);
+	border-radius: 8px;
 	cursor: pointer;
 	display: inline-block;
 	text-align: center;
-	margin: 25px;
-	width: 100px;
+	vertical-align: middle;
+	margin: 15px;
+	width: 89px;
 	height: 40px;
-	background-color: rgb(240, 140, 140);
-	z-index: 0;
+	background-color: rgb(179, 233, 155);
+	text-shadow: 1px 1px 0px rgb(187, 114, 230), 2px 2px 0px rgb(218, 98, 154);
+	box-shadow: 1px 1px 0px rgb(187, 114, 230), 2.5px 2.5px 0px rgb(218, 98, 154);
+}
+.pause-button {
+	text-transform: uppercase;
+	font-size: 1.243rem;
+	font-weight: 450;
+	line-height: 40px;
+	color: rgb(119, 54, 172);
+	border: 1.5px solid rgb(187, 114, 230);
+	border-radius: 8px;
+	cursor: pointer;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	margin: 25px;
+	width: 89px;
+	height: 40px;
+	background-color: rgb(255, 157, 100);
+	text-shadow: 1px 1px 0px rgb(187, 114, 230), 2px 2px 0px rgb(218, 98, 154);
+	box-shadow: 1px 1px 0px rgb(187, 114, 230), 2.5px 2.5px 0px rgb(218, 98, 154);
 }
 #canvas-ball, #canvas-field {
+	box-shadow: 5px 5px 0px rgb(187, 114, 230), 10px 10px 0px rgb(218, 98, 154);
 	margin: 0 auto;
 }
 .messageBox {
@@ -181,3 +224,40 @@ a {
     transform: scale(0.8, 0.8);
   }
 }
+
+
+/* MEDIA RULES */
+
+/* @media (max-width: 1280px) {
+  #canvas-field, #canvas-ball {
+  }
+}
+@media (max-width: 1024px) {
+  #canvas-field, #canvas-ball {
+  }
+}
+@media (max-width: 768px) {
+  #canvas-field, #canvas-ball {
+  }
+}
+@media (max-width: 640px) {
+  #canvas-field, #canvas-ball {
+  }
+}
+@media (max-width: 480px) {
+  #canvas-field, #canvas-ball {
+  }
+  .body {
+    padding: 50px 0 50px;
+  }
+}
+@media (max-width: 400px) {
+  #canvas-field, #canvas-ball {
+  }
+  .body {
+  }
+}
+@media (max-width: 320px) {
+  #canvas-field, #canvas-ball {
+  }
+} */
