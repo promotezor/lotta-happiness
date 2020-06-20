@@ -26,17 +26,17 @@ var ballCache = document.getElementById('canvas-cache');
 
 // настройка, инициализация
 // создаём все три компонента
-let model = new ArcanoidModel()
-let view = new ArcanoidView()
-let controller = new ArcanoidController()
+export let model = new ArcanoidModel()
+export let view = new ArcanoidView()
+export let controller = new ArcanoidController()
 
 
 document.addEventListener('DOMContentLoaded', () => {
 
 // увязываем компоненты друг с другом
 // указываем компонентам, в каком DOM им работать
-  model.setView(view)
-  view.initView(model, CONTAINER)
+  model.setViewContr(view, controller)
+  view.initView(model, CONTAINER, controller)
   controller.startController(model, CONTAINER, view)
   
   // инициируем первичное отображение Model во View
@@ -44,8 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.onload = model.rAF()
 
   view.update()
-
-  // return addBasicListeners();
+  switchToStateFromURLHash();
 });
 
 

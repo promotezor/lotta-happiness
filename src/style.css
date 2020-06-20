@@ -12,37 +12,44 @@ a {
 }
 .main-header {
 	color: #333;
-	width: 400px;
+	width: 220px;
 	vertical-align: center;
 	margin: 0 auto;
 	text-shadow: 5px 5px 0px rgb(187, 114, 230), 10px 10px 0px rgb(218, 98, 154);
 }
 .section-content {
-	width: 640px;
+	position: relative;
+	width: 520px;
 	vertical-align: center;
 	margin: 0 auto;
 
 }
 .paginator {
-	width: 600px;
-	height: 100px;
+	width: 550px;
 	vertical-align: center;
 	margin: 0 auto;
 }
 #tennis-container {
 	position: relative;
+	left: calc(8vw);
+	/* width: 960px; */
+	/* top: calc(30vh - 360px); */
 	transform-origin: 200px 175px;
 }
 #canvas-field, #canvas-ball {
-	border: 3px solid violet;
 	position: absolute;
+	top: calc(20vh);
+	left: -40px;
 	transform: rotate(90deg);
-	transform: translateZ(0);
+	border: 3px solid violet;
 }
 #main {
-	display: none;
+	display: block;
 }
 #play {
+	display: none;
+}
+#rules {
 	display: none;
 }
 #about {
@@ -52,7 +59,7 @@ a {
 	border-radius: 8px;
 	display: inline-block;
 	text-align: center;
-	margin: 25px;
+	margin: 15px;
 	width: 100px;
 	height: 40px;
 	background-color: #fff;
@@ -61,17 +68,26 @@ a {
 	border-radius: 8px;
 	display: inline-block;
 	text-align: center;
-	margin: 25px;
+	margin: 15px;
 	width: 100px;
 	height: 40px;
 	background-color: #fff;
 	
 }
+#rules-button {
+	border-radius: 8px;
+	display: inline-block;
+	text-align: center;
+	margin: 15px;
+	width: 100px;
+	height: 40px;
+	background-color: #fff;
+}
 #about-button {
 	border-radius: 8px;
 	display: inline-block;
 	text-align: center;
-	margin: 25px;
+	margin: 15px;
 	width: 100px;
 	height: 40px;
 	background-color: #fff;
@@ -80,7 +96,7 @@ a {
 	cursor: pointer;
 	display: inline-block;
 	text-align: center;
-	margin: 25px;
+	margin: 15px;
 	width: 100px;
 	height: 40px;
 	background-color: rgb(191, 231, 172);
@@ -121,8 +137,10 @@ a {
 	left: 0;
 	width: 100%;
 	background-color: transparent;
+	transform: translateZ(0);
 }
 .messageBoxAppear {
+  animation: pulsing 3.5s infinite;
 	opacity: 1;
 }
 .messageText {
@@ -147,4 +165,19 @@ a {
 	padding: 7px;
 	background-color: #f0bdfa;
 	cursor: pointer;
+}
+
+@keyframes pulsing {
+  0% {
+    -webkit-transform: scale(0.8, 0.8);
+    transform: scale(0.8, 0.8)
+  }
+  50% {
+    -webkit-transform: scale(1.0, 1.0);
+    transform: scale(1.0, 1.0);
+  }
+  100% {
+    -webkit-transform: scale(0.8, 0.8);
+    transform: scale(0.8, 0.8);
+  }
 }

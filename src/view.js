@@ -12,6 +12,7 @@ export function ArcanoidView() {
 	let self = this
 	let myModel = null
 	let myField = null
+	let myController = null
 	let CANVAS
 	let CANVAS_BALL
 	let SCORE
@@ -30,9 +31,10 @@ export function ArcanoidView() {
 
 	
 
-	self.initView = (model, field) => {
+	self.initView = (model, field, controller) => {
 		myModel = model
 		myField = field
+		myController = controller
 		CANVAS = myField.querySelector('#canvas-field')
 		CANVAS_BALL = myField.querySelector('#canvas-ball')
     SCORE = myField.querySelector('.score')
@@ -119,10 +121,11 @@ export function ArcanoidView() {
 	};
 
 	self.gameOver = () => {
-		GAMEOVER_MODAL.classList.add("messageBoxAppear");
 		GAMEOVER_MODAL.style.display = "block";
 		POPUP_WINDOW.style.display = "block";
+		GAMEOVER_MODAL.classList.add("messageBoxAppear");
 	};
+
 	self.removePopUp = () => {
 		// убираем POPUP
 		GAMEOVER_MODAL.classList.remove("messageBoxAppear");

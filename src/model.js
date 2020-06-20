@@ -18,6 +18,7 @@ export function ArcanoidModel() {
   let self = this;
   let timerID = null;
   let myView = null;
+  let myController = null;
 
   this.game = {
     started: 0,
@@ -62,10 +63,10 @@ export function ArcanoidModel() {
     cols: 8,
     life: 0,
     levels: [],
-    padding: BRICK_HEIGHT/1.28,
+    padding: BRICK_WIDTH*1.27,
   };
 
-  this.createBlocks = (cacheData) => {
+  this.createBlocks = () => {
     for (let cols = 0; cols < this.blocksH.cols; cols++) {
       self.blocksH.levels[cols] = [];
       for (let rows = 0; rows < this.blocksH.rows; rows++) {
@@ -289,13 +290,19 @@ export function ArcanoidModel() {
     if (myView) myView.update();
   };
 
-  this.setView = (view) => {
-    myView = view;
+  this.setViewContr = (view, controller) => {
+    if (view) {
+      myView = view;
+    }
+    if (controller) {
+      myController = controller
+    }
   };
 
   this.updateScore = (racketOne, racketTwo) => {
     if (racketOne) this.racketOne.score++;
     else this.racketTwo.score++;
+    this.updateView();
   };
   
   self.lifeDecrease = (val) => {
@@ -305,7 +312,11 @@ export function ArcanoidModel() {
     }
     if (!self.racketTwo.lifes) {
       myView.gameOver()
+		  if (myController) {
+		  	myController.removeControlEventListeners();
+		  }
     }
+    this.updateView();
   };
 
   self.resumeGame = () => {
@@ -320,6 +331,7 @@ export function ArcanoidModel() {
 
   self.pauseGame = () => {
     self.game.paused = 1;
+    self.game.started = 0;
     this.ballH.cacheSpeedX = this.ballH.speedX;
     this.ballH.cacheSpeedY = this.ballH.speedY;
     this.ballH.speedX = 0;
@@ -329,7 +341,7 @@ export function ArcanoidModel() {
     clearInterval(self.ballH.intervalLink);
     self.ballH.intervalLink = 0;
     cancelAnimationFrame(timerID);
-
+    this.updateView();
   };
 }
 

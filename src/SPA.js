@@ -1,7 +1,13 @@
 "use strict";
+
+import {model} from './SPA';
+import {view} from './SPA';
+import {controller} from './SPA';
+
 let MAIN_PAGE;
 let PLAY_PAGE;
 let ABOUT_PAGE;
+let RULES_PAGE;
 let pages;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,9 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   MAIN_PAGE = document.getElementById("main")
   PLAY_PAGE = document.getElementById("play")
   ABOUT_PAGE = document.getElementById("about")
-  pages = [MAIN_PAGE, PLAY_PAGE, ABOUT_PAGE];
-
-  console.log(MAIN_PAGE, pages, "QQ");
+  RULES_PAGE = document.getElementById("rules")
+  pages = [MAIN_PAGE, PLAY_PAGE, RULES_PAGE, ABOUT_PAGE];
 
   window.onhashchange = switchToStateFromURLHash;
   return switchToStateFromURLHash();
@@ -24,16 +29,19 @@ export function switchToStateFromURLHash() {
 
   var stateStr = URLHash.substr(1);
 
-  console.log("Новое состояние приложения:");
-  console.log(SPAState);
-
   var pageHTML = "";
   switch (stateStr) {
+    case "main":
+        showPage(MAIN_PAGE, pages);
+      break;
     case "play":
       showPage(PLAY_PAGE, pages);
       break;
+      case "rules":
+        showPage(RULES_PAGE, pages);
+        break;
     case "about":
-      showPage(ABOUT_PAGE, pages);
+        showPage(ABOUT_PAGE, pages);
       break;
     default:
       showPage(MAIN_PAGE, pages);
@@ -42,23 +50,12 @@ export function switchToStateFromURLHash() {
   // document.getElementById("IPage").innerHTML = pageHTML;
 }
 
-function switchToState(newState) {
-  var stateStr = newState.pagename;
-  location.hash = stateStr;
+// function switchToState(newState) {
+//   var stateStr = newState.pagename;
+//   location.hash = stateStr;
 
-}
+// }
 
-function switchToMainPage() {
-  switchToState({ pagename: "Main" });
-}
-
-function switchToPhotoPage(photoId) {
-  switchToState({ pagename: "Photo", photoid: photoId });
-}
-
-function switchToAboutPage() {
-  switchToState({ pagename: "About" });
-}
 
 function showPage(visible, hidden) {
   hidden.forEach(item => {
@@ -67,11 +64,11 @@ function showPage(visible, hidden) {
   visible.style.display = 'block';
 }
 
-function confirmExit() {
-  const result = confirm('Вы точно хотите выйти? Результаты будут потеряны');
-  if (!result) {
-      playGame();
-      continueGame();
-  } else delGameOver();
-}
+// function confirmExit() {
+//   const result = confirm('Вы точно хотите выйти? Результаты будут потеряны');
+//   if (!result) {
+//       playGame();
+//       continueGame();
+//   } else delGameOver();
+// }
 
