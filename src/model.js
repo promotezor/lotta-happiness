@@ -252,10 +252,13 @@ export function ArcanoidModel() {
   this.startGame = () => {
     if (!self.game.started) {
       self.game.started = 1;
+      self.game.paused = 0;
       this.ballH.posX = AREA_WIDTH - RACKET_WIDTH - BALL_RADIUS;
       this.ballH.posY = AREA_HEIGHT / 2;
       this.ballH.speedX = BALL_SPEEDX;
       this.ballH.speedY = BALL_SPEEDY;
+      this.racketTwo.posX = AREA_WIDTH - RACKET_WIDTH / 2;
+      this.racketTwo.posY = AREA_HEIGHT / 2
       self.ballFrameIterator();
       this.randSide();
       this.updateView();
@@ -264,6 +267,7 @@ export function ArcanoidModel() {
 
   this.stopGame = () => {
     self.game.started = 0;
+    self.game.paused = 0;
     this.ballH.speedX = 0;
     this.ballH.speedY = 0;
     this.racketTwo.speed = 0;
@@ -298,6 +302,8 @@ export function ArcanoidModel() {
     }
      if (!self.racketTwo.lifes) {
       myView.gameOver()
+      self.game.paused = 0;
+      self.game.started = 0;
 		  if (myController) {
 		  	myController.removeControlEventListeners();
 		  }
@@ -312,6 +318,8 @@ export function ArcanoidModel() {
       this.ballH.posY = AREA_HEIGHT / 2;
       this.ballH.speedX = BALL_SPEEDX;
       this.ballH.speedY = BALL_SPEEDY;
+      this.racketTwo.posX = AREA_WIDTH - RACKET_WIDTH / 2;
+      this.racketTwo.posY = AREA_HEIGHT / 2
     }
     self.game.paused = 0;
     self.game.started = 1;
@@ -326,6 +334,7 @@ export function ArcanoidModel() {
   };
 
   self.pauseGame = () => {
+    console.log('PAUSED')
     if (self.game.started) {
       // console.log('pauseGame() in MODEL');
       self.game.paused = 1;

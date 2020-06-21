@@ -1,4 +1,3 @@
-
 import './style.css';
 
 import {PLAYER_ONE} from './model';
@@ -17,11 +16,13 @@ export function ArcanoidController() {
 		myModel = model;
 		myView = view;
 		myField = container;
-
+		self.removeAllEventListeners()
 		START_AGAIN = document.querySelector(".optionText");
 		START_BTN = myField.querySelector('.start-button');
 		PAUSE_BTN = myField.querySelector('.pause-button');
 		START_BTN.addEventListener('click', this.startModuleButton);
+		document.addEventListener('keydown', this.captureControls);
+		window.addEventListener('keyup', this.freeControls);
 
 	  // stop.addEventListener("touchend", MyModel.stopGame);
 	  // document.addEventListener("mousemove", self.mouseMove);
@@ -52,6 +53,7 @@ export function ArcanoidController() {
 	this.captureControls = (EO) => {
 		// EO.preventDefault();
 		
+
 		if (EO.keyCode == 39) {
 			// EO.preventDefault();
 			myModel.setRacketUpSpeed(PLAYER_TWO)
@@ -63,7 +65,20 @@ export function ArcanoidController() {
 		};
 	}
 	
-	this.resetRacketSpeed = (EO) => {
+	this.freeControls = (EO) => {
+		if (EO.keyCode == 32) {
+			console.log('hooh')
+			// EO.preventDefault();
+			if (myModel.game.paused) {
+				console.log('resume game')
+				myModel.resumeGame();
+			} 
+			if (!myModel.game.started) {
+				myModel.startGame();
+			} else if (myModel.game.started) {
+				console.log('game started!')
+			}
+		}
 	
 		if (EO.keyCode == 39) {
 			EO.preventDefault();
@@ -81,7 +96,7 @@ export function ArcanoidController() {
 		START_BTN.addEventListener('click', this.startModuleButton);
 		PAUSE_BTN.addEventListener('click', this.pauseModuleButton);
 		document.addEventListener('keydown', this.captureControls);
-		window.addEventListener('keyup', this.resetRacketSpeed);
+		window.addEventListener('keyup', this.freeControls);
 
 	  // stop.removeEventListener("touchend", MyModel.stopGame);
 	  // document.removeEventListener("mousemove", self.mouseMove);
@@ -91,9 +106,10 @@ export function ArcanoidController() {
 	};
 	
 	self.removeControlEventListeners = () => {
+		console.log('remove COntrol Event Listners')
 		PAUSE_BTN.removeEventListener('click', this.pauseModuleButton);
 		document.removeEventListener('keydown', this.captureControls);
-		window.removeEventListener('keyup', this.resetRacketSpeed);
+		window.removeEventListener('keyup', self.freeControl);
 
 	  // stop.removeEventListener("touchend", MyModel.stopGame);
 	  // document.removeEventListener("mousemove", self.mouseMove);
@@ -103,11 +119,16 @@ export function ArcanoidController() {
 	};
 	
 	self.removeAllEventListeners = () => {
-		START_AGAIN.removeEventListener('click', this.startAgainModuleButton);
-		START_BTN.removeEventListener('click', this.startModuleButton);
-		PAUSE_BTN.removeEventListener('click', this.pauseModuleButton);
-		document.removeEventListener('keydown', this.captureControls);
-		window.removeEventListener('keyup', this.resetRacketSpeed)	;
+		try {
+			START_AGAIN.removeEventListener('click', this.startAgainModuleButton);
+			START_BTN.removeEventListener('click', this.startModuleButton);
+			PAUSE_BTN.removeEventListener('click', this.pauseModuleButton);
+			document.removeEventListener('keydown', this.captureControls);
+			window.removeEventListener('keyup', self.freeControl)	;
+		} catch (error) {
+			
+		}
+		
 
 	  // stop.removeEventListener("touchend", MyModel.stopGame);
 	  // document.removeEventListener("mousemove", self.mouseMove);
@@ -143,6 +164,3 @@ export function ArcanoidController() {
 			MyModel.PaddleH.TouchMove(relativeX, TouchH.pageX, TouchShiftX);
 	};
 };
-
-
-console.log("Controller loaded")
