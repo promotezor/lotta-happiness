@@ -73,8 +73,6 @@ export function ArcanoidModel() {
         self.blocksH.levels[cols][rows] = {
           x: (BRICK_WIDTH + self.blocksH.padding) * rows + self.blocksH.padding,
           y: (BRICK_HEIGHT + self.blocksH.padding) * cols + self.blocksH.padding,
-          // var blockPosX = (r * (BRICK_WIDTH + p) + p);
-          // var blockPosY = (c * (BRICK_HEIGHT + p) + p);
           lifes: 1,
           status: 0,
           statusCur: 2,
@@ -162,6 +160,7 @@ export function ArcanoidModel() {
       this.ballH.posX + BALL_RADIUS >= AREA_WIDTH
     ) {
       //Если ракетка не словила мячик, останавливаем фрейм анимацию и снимаем жизни
+      // console.log("Я тут")
       self.lifeDecrease(1);
       self.stopGame();
       this.ballH.posX = AREA_WIDTH - BALL_RADIUS;
@@ -251,15 +250,14 @@ export function ArcanoidModel() {
   };
 
   this.startGame = () => {
-    if (!self.racketTwo.lifes) {
-      self.racketTwo.lifes
-    }
-    if  (!self.game.started) {
+    if (!self.game.started) {
       self.game.started = 1;
+      this.ballH.posX = AREA_WIDTH - RACKET_WIDTH - BALL_RADIUS;
+      this.ballH.posY = AREA_HEIGHT / 2;
       this.ballH.speedX = BALL_SPEEDX;
       this.ballH.speedY = BALL_SPEEDY;
       self.ballFrameIterator();
-      // this.randSide();
+      this.randSide();
       this.updateView();
     }
   };
@@ -295,11 +293,10 @@ export function ArcanoidModel() {
   };
   
   self.lifeDecrease = (val) => {
-    if (self.racketTwo.lifes) {
+    if (self.racketTwo.lifes && self.game.started != 0) {
     self.racketTwo.lifes -= val;
-    console.log("Вы потеряли " + val + " life(s)")
     }
-    if (!self.racketTwo.lifes) {
+     if (!self.racketTwo.lifes) {
       myView.gameOver()
 		  if (myController) {
 		  	myController.removeControlEventListeners();
@@ -309,27 +306,39 @@ export function ArcanoidModel() {
   };
 
   self.resumeGame = () => {
+    if (!self.game.paused) {
+      this.randSide();
+      this.ballH.posX = AREA_WIDTH - RACKET_WIDTH - BALL_RADIUS;
+      this.ballH.posY = AREA_HEIGHT / 2;
+      this.ballH.speedX = BALL_SPEEDX;
+      this.ballH.speedY = BALL_SPEEDY;
+    }
     self.game.paused = 0;
     self.game.started = 1;
-    this.ballH.speedX = this.ballH.cacheSpeedX;
-    this.ballH.speedY = this.ballH.cacheSpeedY;
+    if (this.ballH.cacheSpeedX) {
+      this.ballH.speedX = this.ballH.cacheSpeedX;
+      this.ballH.speedY = this.ballH.cacheSpeedY;
+    }
+    this.ballH.cacheSpeedX = 0;
+    this.ballH.cacheSpeedY = 0;
     self.ballFrameIterator();
-    this.randSide();
     this.updateView();
   };
 
   self.pauseGame = () => {
-    self.game.paused = 1;
-    self.game.started = 0;
-    this.ballH.cacheSpeedX = this.ballH.speedX;
-    this.ballH.cacheSpeedY = this.ballH.speedY;
-    this.ballH.speedX = 0;
-    this.ballH.speedY = 0;
-    this.racketTwo.speed = 0;
-    // myController.removeEventListeners();
-    clearInterval(self.ballH.intervalLink);
-    self.ballH.intervalLink = 0;
-    cancelAnimationFrame(timerID);
+    if (self.game.started) {
+      // console.log('pauseGame() in MODEL');
+      self.game.paused = 1;
+      self.game.started = 0;
+      self.ballH.cacheSpeedX = self.ballH.speedX;
+      self.ballH.cacheSpeedY = self.ballH.speedY;
+      self.ballH.speedX = 0;
+      self.ballH.speedY = 0;
+      self.racketTwo.speed = 0;
+      // myController.removeEventListeners();
+      clearInterval(self.ballH.intervalLink);
+      self.ballH.intervalLink = 0;
+      cancelAnimationFrame(timerID);}
     this.updateView();
   };
 }
