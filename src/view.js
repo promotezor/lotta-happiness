@@ -1,7 +1,5 @@
 
 import './style.css';
-import {RACKET_WIDTH} from './model';
-import {RACKET_HEIGHT} from './model';
 import {AREA_WIDTH} from './model';
 import {AREA_HEIGHT} from './model';
 import {BALL_RADIUS} from './model';

@@ -350,6 +350,38 @@ export function ArcanoidModel() {
       cancelAnimationFrame(timerID);}
     this.updateView();
   };
+
+  self.mouseMove = (relativeY) => {
+    if (relativeY - RACKET_HEIGHT / 2 < 0) {
+      self.racketTwo.posY = AREA_HEIGHT - RACKET_HEIGHT/2;
+    }
+    else if (relativeY + RACKET_HEIGHT / 2 > AREA_HEIGHT) {
+      self.racketTwo.posY = 0;
+    }
+    else {
+      self.racketTwo.posY = (AREA_HEIGHT - relativeY);
+    }
+  };
+
+  
+
+  self.touchStart = (x) => {
+    return x - self.racketTwo.posX;
+  };
+
+  self.touchMove = (relativeX, coords, shift) => {
+    if (relativeX > 0 && relativeX < AREA_HEIGHT) {
+        if (coords - shift < 0) {
+            self.racketTwo.posX = 0;
+        }
+        else if (coords - shift > AREA_HEIGHT - RACKET_HEIGHT) {
+            self.racketTwo.posX = AREA_HEIGHT - RACKET_HEIGHT;
+        }
+        else {
+            self.racketTwo.posX = coords - shift;
+        }
+    }
+  };
 }
 
 console.log("Model loaded");

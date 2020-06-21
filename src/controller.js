@@ -1,7 +1,9 @@
 import './style.css';
 
-import {PLAYER_ONE} from './model';
+import {AREA_WIDTH} from './model';
+import {AREA_HEIGHT} from './model';
 import {PLAYER_TWO} from './model';
+import {fieldCanvas} from './main';
 
 export function ArcanoidController() {
 	let self = this;
@@ -11,6 +13,7 @@ export function ArcanoidController() {
 	let START_BTN;
 	let PAUSE_BTN;
 	let START_AGAIN
+	let touchShiftX
 	
 	this.startController = (model, container, view) => {
 		myModel = model;
@@ -97,25 +100,21 @@ export function ArcanoidController() {
 		PAUSE_BTN.addEventListener('click', this.pauseModuleButton);
 		document.addEventListener('keydown', this.captureControls);
 		window.addEventListener('keyup', this.freeControls);
-
-	  // stop.removeEventListener("touchend", MyModel.stopGame);
-	  // document.removeEventListener("mousemove", self.mouseMove);
-	  // document.removeEventListener("touchstart", self.touchStart);
-	  // document.removeEventListener("touchmove", self.touchMove);
-	  // document.removeEventListener("touchend", self.touchEnd);
+	  PAUSE_BTN.addEventListener("touchend", myModel.pauseGame);
+	  document.addEventListener("mousemove", self.mouseMove);
+	  document.addEventListener("touchstart", self.touchStart);
+	  document.addEventListener("touchmove", self.touchMove);
+	  document.addEventListener("touchend", self.touchEnd);
 	};
 	
 	self.removeControlEventListeners = () => {
-		console.log('remove COntrol Event Listners')
 		PAUSE_BTN.removeEventListener('click', this.pauseModuleButton);
 		document.removeEventListener('keydown', this.captureControls);
 		window.removeEventListener('keyup', self.freeControl);
-
-	  // stop.removeEventListener("touchend", MyModel.stopGame);
-	  // document.removeEventListener("mousemove", self.mouseMove);
-	  // document.removeEventListener("touchstart", self.touchStart);
-	  // document.removeEventListener("touchmove", self.touchMove);
-	  // document.removeEventListener("touchend", self.touchEnd);
+	  PAUSE_BTN.removeEventListener("touchend", myModel.pauseGame);
+	  document.removeEventListener("touchstart", self.touchStart);
+	  document.removeEventListener("touchmove", self.touchMove);
+	  document.removeEventListener("touchend", self.touchEnd);
 	};
 	
 	self.removeAllEventListeners = () => {
@@ -125,9 +124,13 @@ export function ArcanoidController() {
 			PAUSE_BTN.removeEventListener('click', this.pauseModuleButton);
 			document.removeEventListener('keydown', this.captureControls);
 			window.removeEventListener('keyup', self.freeControl)	;
+			PAUSE_BTN.removeEventListener("touchend", myModel.pauseGame);
+			document.removeEventListener("touchstart", self.touchStart);
+			document.removeEventListener("touchmove", self.touchMove);
+			document.removeEventListener("touchend", self.touchEnd);
 		} catch (error) {
 			
-		}
+		};
 		
 
 	  // stop.removeEventListener("touchend", MyModel.stopGame);
@@ -137,19 +140,18 @@ export function ArcanoidController() {
 	  // document.removeEventListener("touchend", self.touchEnd);
 	};
 
-	self.mouseMove = function (EO) {
-		var relativeX = EO.clientX - MyCanvas.getBoundingClientRect().left;
-		if (relativeX > 0 && relativeX < MyCanvas.width) {
-				MyModel.PaddleH.mouseMove(relativeX);
+	self.mouseMove = function(EO) {
+		console.log('top of GBCR = ', fieldCanvas.getBoundingClientRect().left, 'top of clientX = ', EO.clientX)
+		let relativeY = EO.clientX - fieldCanvas.getBoundingClientRect().left ;
+		if (relativeY > 0 && relativeY < AREA_HEIGHT) {
+				myModel.mouseMove(relativeY);
 		}
 	};
 
-
 	self.touchStart = function (EO) {
 			//e.preventDefault();
-		if (EO.target) {
-
-		}
+			let touchH = EO.targetTouches[0];
+      touchShiftX = myModel.touchStart(touchH.pageX);
 	};
 
 
@@ -159,8 +161,8 @@ export function ArcanoidController() {
 
 	self.touchMove = function (EO) {
 			//e.preventDefault();
-			var TouchH = EO.targetTouches[0];
-			var relativeX = TouchH.pageX - MyCanvas.offsetLeft;
-			MyModel.PaddleH.TouchMove(relativeX, TouchH.pageX, TouchShiftX);
+			let touchH = EO.targetTouches[0];
+			let relativeX = touchH.pageX - fieldCanvas.offsetLeft;
+			myModel.touchMove(relativeX, touchH.pageX, touchShiftX);
 	};
 };
